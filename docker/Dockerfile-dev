@@ -1,0 +1,7 @@
+FROM stactools-naip:latest
+
+RUN conda install -c conda-forge pandoc
+
+COPY . /src/stactools-naip
+RUN pip install -r /src/stactools-naip/requirements-dev.txt
+WORKDIR /src/stactools-naip

@@ -13,3 +13,6 @@ def register_plugin(registry):
     from stactools.naip import commands
 
     registry.register_subcommand(commands.create_naip_command)
+
+
+__version__ = '0.1.6'

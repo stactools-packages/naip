@@ -1,7 +1,8 @@
 import unittest
 
 from stactools.naip.utils import parse_fgdc_metadata
-from tests.utils import TestData
+
+from tests import test_data
 
 # Test cases, file names to keys and values that should exist.
 FGDC_FILES = {
@@ -37,7 +38,7 @@ class UtilsTest(unittest.TestCase):
 
     def test_parses_fgdc(self):
         for test_file, expected in FGDC_FILES.items():
-            path = TestData.get_path('data-files/naip/{}'.format(test_file))
+            path = test_data.get_path('data-files/{}'.format(test_file))
             with self.subTest(test_file):
                 with open(path) as f:
                     fgdc_txt = f.read()

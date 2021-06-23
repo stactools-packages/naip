@@ -6,12 +6,12 @@ import pystac
 from pystac.extensions.eo import EOExtension
 from pystac.extensions.item_assets import ItemAssetsExtension
 from pystac.extensions.projection import ProjectionExtension
-from pystac.stac_io import DefaultStacIO
 from pystac.utils import str_to_datetime
 from shapely.geometry import shape, box, mapping
 import rasterio as rio
 
 from stactools.core.projection import reproject_geom
+from stactools.core.io import read_text
 from stactools.naip import constants
 from stactools.naip.utils import parse_fgdc_metadata
 
@@ -106,8 +106,7 @@ def create_item(state,
                               precision=6)
 
     if fgdc_metadata_href is not None:
-        stac_io = DefaultStacIO()
-        fgdc_metadata_text = stac_io.read_text(fgdc_metadata_href)
+        fgdc_metadata_text = read_text(fgdc_metadata_href)
         fgdc = parse_fgdc_metadata(fgdc_metadata_text)
     else:
         fgdc = {}

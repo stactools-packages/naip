@@ -10,6 +10,7 @@ from tests import test_data
 
 
 class CreateItemTest(CliTestCase):
+
     def create_subcommand_functions(self):
         return [create_naip_command]
 

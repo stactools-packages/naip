@@ -25,6 +25,7 @@ FGDC_FILES = {
 
 
 class UtilsTest(unittest.TestCase):
+
     def check_values(self, actual_dict, expected_dict):
         for k in expected_dict:
             self.assertIn(k, actual_dict)

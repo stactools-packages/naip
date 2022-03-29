@@ -4,6 +4,7 @@ from stactools.naip.stac import create_collection
 
 
 class StacTest(unittest.TestCase):
+
     def test_create_collection(self):
         collection = create_collection(seasons=[2011, 2013, 2015, 2017, 2019])
 

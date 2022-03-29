@@ -14,6 +14,7 @@ def create_naip_command(cli):
     """Creates a command group for commands working with
     NAIP imagery.
     """
+
     @cli.group('naip',
                short_help=("Commands for working with "
                            "NAIP imagery."))

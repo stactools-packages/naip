@@ -1,15 +1,24 @@
 # stactools-naip
 
-Template repostitory for [stactools](https://github.com/stac-utils/stactools) packages.
+stactools-naip is a [stactools](https://github.com/stac-utils/stactools) package to generate STAC objects
+for NAIP images.
 
 ## How to use
 
-1. Clone this repository and name it `stactools-{NAME}`, where `NAME` is your package name.
-   This name should be short, memorable, and a valid Python package name (i.e. it shouldn't start with a number, etc).
-2. Update `setup.cfg` with your package name, description, and such.
-3. Rename `src/stactools.naip` to `src/stactools/{NAME}`.
-4. Rewrite this README to provide information about how to use your package.
-5. Update the LICENSE with your company's information (or whomever holds the copyright).
-6. Update the environment name in `environment.yml`.
-7. Update the environment variables in `.github/workflows/release.yml` to the appropriate values to publish for your organization.
-8. Update all scripts in the `docker` directory to refer to `stactools-{NAME}` and `stactools-{NAME}-dev`.
+To install, run:
+
+```shell
+pip install stactools-naip
+pip install stactools[s3]
+```
+
+To create a STAC Item:
+
+```shell
+aws s3 cp --request-payer requester s3://naip-analytic/va/2018/60cm/fgdc/37077/m_3707763_se_18_060_20180825.txt .
+export AWS_REQUEST_PAYER='requester'
+stac naip create-item --fgdc m_3707763_se_18_060_20180825.txt \
+  VA 2018 s3://naip-analytic/va/2018/60cm/rgbir_cog/37077/m_3707763_se_18_060_20180825.tif \
+  json-dest/
+
+```

@@ -7,4 +7,4 @@ sphinx-autobuild
 sphinx-click
 sphinxcontrib-fulltoc
 sphinxcontrib-napoleon
-yapf
+yapf[extra]

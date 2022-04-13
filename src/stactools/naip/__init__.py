@@ -2,8 +2,6 @@
 
 import stactools.core
 
-from stactools.naip.stac import create_item
-
 stactools.core.use_fsspec()
 
 

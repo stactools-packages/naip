@@ -20,5 +20,23 @@ export AWS_REQUEST_PAYER='requester'
 stac naip create-item --fgdc m_3707763_se_18_060_20180825.txt \
   VA 2018 s3://naip-analytic/va/2018/60cm/rgbir_cog/37077/m_3707763_se_18_060_20180825.tif \
   json-dest/
+```
 
+## Development
+
+```shell
+pip install -r requirements-dev.txt
+```
+
+
+Install pre-commit hooks with:
+
+```shell
+pre-commit install
+```
+
+Run these before commit with:
+
+```shell
+pre-commit run --all-files
 ```

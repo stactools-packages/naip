@@ -1,7 +1,5 @@
 # flake8: noqa
 
-from stactools.naip.stac import create_item
-
 import stactools.core
 
 stactools.core.use_fsspec()
@@ -15,4 +13,4 @@ def register_plugin(registry):
     registry.register_subcommand(commands.create_naip_command)
 
 
-__version__ = '0.1.6'
+__version__ = "0.1.6"

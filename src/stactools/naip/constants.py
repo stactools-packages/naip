@@ -1,7 +1,8 @@
 import pystac
 from pystac.extensions.eo import Band
+from pystac.provider import ProviderRole
 
-NAIP_ID = 'usda-naip'
+NAIP_ID = "usda-naip"
 NAIP_TITLE = "NAIP: National Agriculture Imagery Program"
 NAIP_DESCRIPTION = """
 The National Agriculture Imagery Program (NAIP) acquires aerial imagery
@@ -19,19 +20,24 @@ ground control points, which are used during image inspection.
 Older images were collected using 3 bands (Red, Green, and Blue: RGB), but
 newer imagery is usually collected with an additional near-infrared band
 (RGBN).
-""".strip('\n')
+""".strip(
+    "\n"
+)
 
-NAIP_LICENSE = 'PDDL-1.0'
+NAIP_LICENSE = "PDDL-1.0"
 
 USDA_PROVIDER = pystac.Provider(
-    name='USDA Farm Service Agency',
-    url=('https://www.fsa.usda.gov/programs-and-services/aerial-photography'
-         '/imagery-programs/naip-imagery/'),
-    roles=['producer', 'licensor'])
+    name="USDA Farm Service Agency",
+    url=(
+        "https://www.fsa.usda.gov/programs-and-services/aerial-photography"
+        "/imagery-programs/naip-imagery/"
+    ),
+    roles=[ProviderRole.PRODUCER, ProviderRole.LICENSOR],
+)
 
 NAIP_BANDS = [
-    Band.create(name="Red", common_name='red'),
-    Band.create(name="Green", common_name='green'),
-    Band.create(name="Blue", common_name='blue'),
-    Band.create(name="NIR", common_name='nir', description="near-infrared")
+    Band.create(name="Red", common_name="red"),
+    Band.create(name="Green", common_name="green"),
+    Band.create(name="Blue", common_name="blue"),
+    Band.create(name="NIR", common_name="nir", description="near-infrared"),
 ]

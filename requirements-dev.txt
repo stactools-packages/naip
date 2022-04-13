@@ -1,11 +1,7 @@
+black
 codespell
 coverage
 flake8
-pylint
-sphinx
-sphinx-autobuild
-sphinx-click
-sphinxcontrib-fulltoc
-sphinxcontrib-napoleon
-toml
-yapf
+pre-commit
+pytest
+pytest-cov

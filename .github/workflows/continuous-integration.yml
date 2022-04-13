@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.7", "3.8", "3.9"]
+        python-version: ["3.8", "3.9"] # 3.10 fails with proj_identify error
     defaults:
       run:
         shell: bash -l {0}
@@ -43,6 +43,12 @@ jobs:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/setup.cfg', '**/requirements-dev.txt') }}
           restore-keys: ${{ runner.os }}-pip-
+      - name: Set up pre-commit cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pre-commit
+          key: ${{ runner.os }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml' )}}
+          restore-keys: ${{ runner.os }}-pre-commit-
       - name: Set up Conda with Python ${{ matrix.python-version }}
         uses: conda-incubator/setup-miniconda@v2
         with:
@@ -50,5 +56,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Update Conda's environemnt
         run: conda env update -f environment.yml -n test
+      - name: install rasterio 1.3a3 if python 3.10
+        if: matrix.python-version == '3.10'
+        run: pip install rasterio==1.3a3
       - name: Execute linters and test suites
         run: ./scripts/cibuild

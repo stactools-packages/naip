@@ -1,31 +1,29 @@
 import unittest
 
 from stactools.naip.utils import parse_fgdc_metadata
-
 from tests import test_data
 
 # Test cases, file names to keys and values that should exist.
 FGDC_FILES = {
-    'm_4107212_se_18_060_20180816.txt': {
-        'Distribution_Information': {
-            'Resource_Description': 'm_4107212_se_18_060_20180816_20181211.tif'
+    "m_4107212_se_18_060_20180816.txt": {
+        "Distribution_Information": {
+            "Resource_Description": "m_4107212_se_18_060_20180816_20181211.tif"
         },
-        'Identification_Information': {
-            'Spatial_Domain': {
-                'Bounding_Coordinates': {
-                    'West_Bounding_Coordinate': '-72.5625',
-                    'East_Bounding_Coordinate': '-72.5000',
-                    'North_Bounding_Coordinate': '41.8125',
-                    'South_Bounding_Coordinate': '41.7500'
+        "Identification_Information": {
+            "Spatial_Domain": {
+                "Bounding_Coordinates": {
+                    "West_Bounding_Coordinate": "-72.5625",
+                    "East_Bounding_Coordinate": "-72.5000",
+                    "North_Bounding_Coordinate": "41.8125",
+                    "South_Bounding_Coordinate": "41.7500",
                 }
             }
-        }
+        },
     }
 }
 
 
 class UtilsTest(unittest.TestCase):
-
     def check_values(self, actual_dict, expected_dict):
         for k in expected_dict:
             self.assertIn(k, actual_dict)
@@ -39,7 +37,7 @@ class UtilsTest(unittest.TestCase):
 
     def test_parses_fgdc(self):
         for test_file, expected in FGDC_FILES.items():
-            path = test_data.get_path('data-files/{}'.format(test_file))
+            path = test_data.get_path("data-files/{}".format(test_file))
             with self.subTest(test_file):
                 with open(path) as f:
                     fgdc_txt = f.read()

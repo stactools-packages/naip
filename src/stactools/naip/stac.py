@@ -1,5 +1,6 @@
 import os
-from typing import List, Optional
+import re
+from typing import Final, List, Optional, Pattern
 
 import dateutil.parser
 import pystac
@@ -13,7 +14,10 @@ from stactools.core.io import read_text
 from stactools.core.projection import reproject_geom
 
 from stactools.naip import constants
+from stactools.naip.grid import GridExtension
 from stactools.naip.utils import parse_fgdc_metadata
+
+DOQQ_PATTERN: Final[Pattern[str]] = re.compile(r"[A-Za-z]{2}_m_(\d{7})_(ne|se|nw|sw)_")
 
 
 def naip_item_id(state, resource_name):
@@ -149,15 +153,20 @@ def create_item(
         item.common_metadata.providers.extend(additional_providers)
     item.common_metadata.gsd = gsd
 
-    # eo, for asset bands
+    # EO Extension, for asset bands
     EOExtension.add_to(item)
 
-    # proj
+    # Projection Extension
     projection = ProjectionExtension.ext(item, add_if_missing=True)
     projection.epsg = epsg
     projection.shape = image_shape
     projection.bbox = original_bbox
     projection.transform = transform
+
+    # Grid Extension
+    grid = GridExtension.ext(item, add_if_missing=True)
+    if match := DOQQ_PATTERN.search(item_id):
+        grid.code = f"DOQQ-{match.group(1)}{match.group(2).upper()}"
 
     # COG
     item.add_asset(

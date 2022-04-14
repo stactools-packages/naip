@@ -1,5 +1,6 @@
 import os
 import re
+from datetime import timedelta
 from typing import Final, List, Optional, Pattern
 
 import dateutil.parser
@@ -141,6 +142,7 @@ def create_item(
         fname_date = fname.split("_")[5]
         dt = dateutil.parser.isoparse(fname_date)
 
+    dt = dt + timedelta(hours=16)  # UTC is +4 ET, so is around 9-12 AM in CONUS
     properties = {"naip:state": state, "naip:year": year}
 
     item = pystac.Item(

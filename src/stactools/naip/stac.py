@@ -1,3 +1,4 @@
+import itertools
 import os
 import re
 from datetime import timedelta
@@ -9,6 +10,7 @@ import rasterio as rio
 from pystac.extensions.eo import EOExtension
 from pystac.extensions.item_assets import ItemAssetsExtension
 from pystac.extensions.projection import ProjectionExtension
+from pystac.extensions.raster import DataType, RasterBand, RasterExtension
 from pystac.utils import str_to_datetime
 from shapely.geometry import box, mapping, shape
 from stactools.core.io import read_text
@@ -108,7 +110,7 @@ def create_item(
     """
 
     with rio.open(cog_href) as ds:
-        gsd = ds.res[0]
+        gsd = round(ds.res[0], 1)
         epsg = int(ds.crs.to_authority()[1])
         image_shape = list(ds.shape)
         original_bbox = list(ds.bounds)
@@ -207,7 +209,23 @@ def create_item(
             ),
         )
 
-    asset_eo = EOExtension.ext(item.assets["image"])
+    image_asset = item.assets["image"]
+
+    # EO Extension
+    asset_eo = EOExtension.ext(image_asset)
     asset_eo.bands = constants.NAIP_BANDS
+
+    # Raster Extension
+    RasterExtension.ext(image_asset, add_if_missing=True).bands = list(
+        itertools.repeat(
+            RasterBand.create(
+                nodata=0,
+                spatial_resolution=gsd,
+                data_type=DataType.UINT8,
+                unit="none",
+            ),
+            4,
+        )
+    )
 
     return item

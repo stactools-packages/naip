@@ -11,6 +11,7 @@ from pystac.extensions.eo import EOExtension
 from pystac.extensions.item_assets import ItemAssetsExtension
 from pystac.extensions.projection import ProjectionExtension
 from pystac.extensions.raster import DataType, RasterBand, RasterExtension
+from pystac.extensions.scientific import ItemScientificExtension, Publication
 from pystac.utils import str_to_datetime
 from shapely.geometry import box, mapping, shape
 from stactools.core.io import read_text
@@ -227,5 +228,19 @@ def create_item(
             4,
         )
     )
+
+    # Scientific Extension
+
+    sci_ext = ItemScientificExtension.ext(item, add_if_missing=True)
+    sci_ext.doi = "10.5066/F7QN651G"
+
+    pub_citation = """Maxwell, A. E., Warner, T. A., Vanderbilt, B. C., &amp; Ramezan, C. A. (2017).\n
+    Land cover classification and feature extraction from National Agriculture Imagery Program\n
+    (NAIP) orthoimagery: A Review. Photogrammetric Engineering &amp; Remote Sensing, 83(11),\n
+    737-747. https://doi.org/10.14358/pers.83.10.737"""
+
+    sci_ext.publications = [
+        Publication("10.14358/PERS.83.10.737", " ".join(pub_citation.split()))
+    ]
 
     return item

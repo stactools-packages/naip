@@ -31,7 +31,7 @@ class StacTest(unittest.TestCase):
             self.assertEqual(raster_band.data_type, DataType.UINT8)
             self.assertEqual(raster_band.unit, "none")
 
-        sci_ext = ItemScientificExtension.ext(item, add_if_missing=True)
+        sci_ext = ItemScientificExtension.ext(item)
 
         self.assertEqual(sci_ext.doi, "10.5066/F7QN651G")
         self.assertGreaterEqual(len(sci_ext.publications), 1)

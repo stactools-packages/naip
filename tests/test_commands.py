@@ -92,7 +92,9 @@ class CreateItemTest(CliTestCase):
         fgdc_href = test_data.get_path(
             "data-files/m_3610332_se_13_060_20200903_20201204.xml"
         )
-        cog_href = test_data.get_path("data-files/m_3610332_se_13_060_20200903.tif")
+        cog_href = test_data.get_path(
+            "data-files/m_3610332_se_13_060_20200903-downsampled.tif"
+        )
         with TemporaryDirectory() as tmp_dir:
             cmd = [
                 "naip",

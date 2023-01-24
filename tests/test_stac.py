@@ -41,7 +41,9 @@ class StacTest(unittest.TestCase):
         item = create_item(
             "tx",
             "2020",
-            test_data.get_path("data-files/m_3610332_se_13_060_20200903.tif"),
+            test_data.get_path(
+                "data-files/m_3610332_se_13_060_20200903-downsampled.tif"
+            ),
             test_data.get_path("data-files/m_3610332_se_13_060_20200903_20201204.xml"),
         )
 

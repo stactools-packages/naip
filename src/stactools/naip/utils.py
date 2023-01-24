@@ -1,4 +1,9 @@
 import re
+from typing import Callable
+
+
+class MissingElement(Exception):
+    """An expected element is missing from the XML file"""
 
 
 def parse_fgdc_metadata(md_text):
@@ -59,3 +64,12 @@ def parse_fgdc_metadata(md_text):
             return result
 
     return _parse(md_text.split("\n"), group_indent=0)["Metadata"]
+
+
+def missing_element(attribute: str) -> Callable[[str], Exception]:
+    def get_exception(xpath: str) -> Exception:
+        return MissingElement(
+            f"Could not find attribute `{attribute}` at xpath '{xpath}'"
+        )
+
+    return get_exception

@@ -2,9 +2,9 @@ import os
 from tempfile import TemporaryDirectory
 
 import pystac
-from stactools.testing import CliTestCase
 
 from stactools.naip.commands import create_naip_command
+from stactools.testing import CliTestCase
 from tests import test_data
 
 
@@ -12,7 +12,7 @@ class CreateItemTest(CliTestCase):
     def create_subcommand_functions(self):
         return [create_naip_command]
 
-    def test_create_item(self):
+    def test_create_item_txt(self):
         fgdc_href = test_data.get_path("data-files/m_3008501_ne_16_1_20110815.txt")
         cog_href = test_data.get_path(
             "data-files/m_3008501_ne_16_1_20110815-downsampled.tif"
@@ -85,5 +85,32 @@ class CreateItemTest(CliTestCase):
             item_path = os.path.join(tmp_dir, jsons[0])
 
             item = pystac.read_file(item_path)
+
+        item.validate()
+
+    def test_create_item_xml(self):
+        fgdc_href = test_data.get_path(
+            "data-files/m_3610332_se_13_060_20200903_20201204.xml"
+        )
+        cog_href = test_data.get_path("data-files/m_3610332_se_13_060_20200903.tif")
+        with TemporaryDirectory() as tmp_dir:
+            cmd = [
+                "naip",
+                "create-item",
+                "tx",
+                "2020",
+                cog_href,
+                "--fgdc",
+                fgdc_href,
+                tmp_dir,
+            ]
+            self.run_command(cmd)
+
+            jsons = [p for p in os.listdir(tmp_dir) if p.endswith(".json")]
+            self.assertEqual(len(jsons), 1)
+
+            item_path = os.path.join(tmp_dir, jsons[0])
+
+            item = pystac.Item.from_file(item_path)
 
         item.validate()

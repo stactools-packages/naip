@@ -1,5 +1,9 @@
+import os
 import re
-from typing import Callable
+from datetime import datetime
+from typing import Callable, Tuple
+
+import dateutil.parser
 
 
 class MissingElement(Exception):
@@ -69,7 +73,19 @@ def parse_fgdc_metadata(md_text):
 def missing_element(attribute: str) -> Callable[[str], Exception]:
     def get_exception(xpath: str) -> Exception:
         return MissingElement(
-            f"Could not find attribute `{attribute}` at xpath '{xpath}'"
+            f"Could not find attribute `{attribute}` at xpath '{xpath}'."
         )
 
     return get_exception
+
+
+def get_id_date(cog_href) -> Tuple[str, datetime]:
+    resource_desc = os.path.basename(cog_href)
+    name = os.path.splitext(resource_desc)[0]
+    pattern = r"(m)_(\d{7})_(\w{2})_(\d{2})_(\d{1})_(\d{8})"
+
+    m = re.search(pattern, name)
+    if not m:
+        raise Exception("Could not parses line:\n{}\n".format(name))
+    dt = dateutil.parser.isoparse(m.group(6))
+    return resource_desc, dt

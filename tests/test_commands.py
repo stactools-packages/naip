@@ -2,9 +2,9 @@ import os
 from tempfile import TemporaryDirectory
 
 import pystac
+from stactools.testing import CliTestCase
 
 from stactools.naip.commands import create_naip_command
-from stactools.testing import CliTestCase
 from tests import test_data
 
 

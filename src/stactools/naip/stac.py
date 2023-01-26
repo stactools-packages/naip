@@ -160,17 +160,15 @@ def create_item(
                 resource_desc = os.path.basename(cog_href)
 
             try:
-
                 dt = str_to_datetime(
                     fgdc["Identification_Information"]["Time_Period_of_Content"][
                         "Time_Period_Information"
                     ]["Single_Date/Time"]["Calendar_Date"]
                 )
-
             except KeyError:
                 dt = str_to_datetime(resource_desc.split(".")[0].split("_")[-1])
         else:
-            raise Exception("No metadata file found for year " + str(year))
+            raise Exception(f"Metadata for year {year} is not supported.")
 
     else:
         res = maybe_extract_id_and_date(cog_href)

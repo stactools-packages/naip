@@ -1,9 +1,11 @@
 import os
 import re
 from datetime import datetime
-from typing import Callable, Tuple
+from typing import Callable, Optional, Tuple
 
 import dateutil.parser
+
+NAIP_FILENAME_REGEX = re.compile(r"(m)_(\d{7})_(\w{2})_(\d{2})_(\d{1,3})_(\d{8})")
 
 
 class MissingElement(Exception):
@@ -79,13 +81,11 @@ def missing_element(attribute: str) -> Callable[[str], Exception]:
     return get_exception
 
 
-def get_id_date(cog_href) -> Tuple[str, datetime]:
+def maybe_extract_id_and_date(cog_href: str) -> Optional[Tuple[str, datetime]]:
     resource_desc = os.path.basename(cog_href)
     name = os.path.splitext(resource_desc)[0]
-    pattern = r"(m)_(\d{7})_(\w{2})_(\d{2})_(\d{1})_(\d{8})"
-
-    m = re.search(pattern, name)
+    m = NAIP_FILENAME_REGEX.search(name)
     if not m:
-        raise Exception("Could not parses line:\n{}\n".format(name))
+        return None
     dt = dateutil.parser.isoparse(m.group(6))
     return resource_desc, dt

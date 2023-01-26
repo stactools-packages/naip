@@ -21,7 +21,11 @@ from stactools.core.projection import reproject_geom
 
 from stactools.naip import constants
 from stactools.naip.grid import GridExtension
-from stactools.naip.utils import get_id_date, missing_element, parse_fgdc_metadata
+from stactools.naip.utils import (
+    maybe_extract_id_and_date,
+    missing_element,
+    parse_fgdc_metadata,
+)
 
 DOQQ_PATTERN: Final[Pattern[str]] = re.compile(r"[A-Za-z]{2}_m_(\d{7})_(ne|se|nw|sw)_")
 
@@ -123,40 +127,59 @@ def create_item(
         )
 
     if fgdc_metadata_href is not None:
-        if int(year) == 2020:
-            file_xpath = """gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/
-            gmd:CI_Citation/gmd:title/gco:CharacterString"""
+        if year == "2020":
+            file_xpath = (
+                "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/"
+                "gmd:CI_Citation/gmd:title/gco:CharacterString"
+            )
 
             with fsspec.open(fgdc_metadata_href) as file:
                 root = XmlElement(
                     etree.parse(file, base_url=fgdc_metadata_href).getroot()
                 )
                 resource_desc = root.find_text_or_throw(
-                    "".join(file_xpath.split()), missing_element("File Identifier")
+                    file_xpath, missing_element("File Identifier")
                 )
                 if resource_desc is not None:
                     dt = str_to_datetime(resource_desc.split(".")[0].split("_")[-1])
                 else:
-                    resource_desc, dt = get_id_date(cog_href)
+                    res = maybe_extract_id_and_date(cog_href)
+                    if res is not None:
+                        resource_desc, dt = res
+                    else:
+                        raise Exception(
+                            f"Could not get the name and date of COG with href: {cog_href}"
+                        )
 
-        elif int(year) < 2020:
+        elif year < "2020":
             fgdc_metadata_text = read_text(fgdc_metadata_href)
             fgdc = parse_fgdc_metadata(fgdc_metadata_text)
-            if "Distribution_Information" in fgdc:
+            try:
                 resource_desc = fgdc["Distribution_Information"]["Resource_Description"]
-            else:
+            except KeyError:
                 resource_desc = os.path.basename(cog_href)
 
-            dt = str_to_datetime(
-                fgdc["Identification_Information"]["Time_Period_of_Content"][
-                    "Time_Period_Information"
-                ]["Single_Date/Time"]["Calendar_Date"]
-            )
+            try:
+
+                dt = str_to_datetime(
+                    fgdc["Identification_Information"]["Time_Period_of_Content"][
+                        "Time_Period_Information"
+                    ]["Single_Date/Time"]["Calendar_Date"]
+                )
+
+            except KeyError:
+                dt = str_to_datetime(resource_desc.split(".")[0].split("_")[-1])
         else:
             raise Exception("No metadata file found for year " + str(year))
 
     else:
-        resource_desc, dt = get_id_date(cog_href)
+        res = maybe_extract_id_and_date(cog_href)
+        if res is not None:
+            resource_desc, dt = res
+        else:
+            raise Exception(
+                f"Could not get the name and date of COG with href: {cog_href}"
+            )
 
     item_id = naip_item_id(state, resource_desc)
 

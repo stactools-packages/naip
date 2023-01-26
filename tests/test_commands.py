@@ -14,9 +14,7 @@ class CreateItemTest(CliTestCase):
 
     def test_create_item_txt(self):
         fgdc_href = test_data.get_path("data-files/m_3008501_ne_16_1_20110815.txt")
-        cog_href = test_data.get_path(
-            "data-files/m_3008501_ne_16_1_20110815-downsampled.tif"
-        )
+        cog_href = test_data.get_path("data-files/m_3008501_ne_16_1_20110815.tif")
 
         with TemporaryDirectory() as tmp_dir:
             cmd = [

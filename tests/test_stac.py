@@ -1,8 +1,9 @@
 import unittest
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from pystac.extensions.raster import DataType, RasterExtension
 from pystac.extensions.scientific import ItemScientificExtension
+from pystac.utils import str_to_datetime
 
 from stactools.naip.stac import create_collection, create_item
 from tests import test_data
@@ -19,7 +20,7 @@ class StacTest(unittest.TestCase):
         item = create_item(
             "al",
             "2011",
-            test_data.get_path("data-files/m_3008501_ne_16_1_20110815-downsampled.tif"),
+            test_data.get_path("data-files/m_3008501_ne_16_1_20110815.tif"),
             test_data.get_path("data-files/m_3008501_ne_16_1_20110815.txt"),
         )
 
@@ -63,3 +64,17 @@ class StacTest(unittest.TestCase):
 
         self.assertEqual(type(item.datetime), datetime)
         self.assertEqual(type(item.id), str)
+
+    def test_incorrect_metadata_txt(self):
+        # Resource Description key is missing from the metadata
+        item = create_item(
+            "al",
+            "2011",
+            test_data.get_path("data-files/m_3008501_ne_16_1_20110815.tif"),
+            test_data.get_path("data-files/m_3008501_ne_16_1_20110815_incorrect.txt"),
+        )
+
+        self.assertEqual(item.id, "al_m_3008501_ne_16_1_20110815")
+        self.assertEqual(
+            item.datetime, str_to_datetime("20110815") + timedelta(hours=16)
+        )

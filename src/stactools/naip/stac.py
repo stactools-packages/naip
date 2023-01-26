@@ -4,9 +4,10 @@ import re
 from datetime import timedelta
 from typing import Final, List, Optional, Pattern
 
-import dateutil.parser
+import fsspec
 import pystac
 import rasterio as rio
+from lxml import etree
 from pystac.extensions.eo import EOExtension
 from pystac.extensions.item_assets import ItemAssetsExtension
 from pystac.extensions.projection import ProjectionExtension
@@ -15,11 +16,16 @@ from pystac.extensions.scientific import ItemScientificExtension, Publication
 from pystac.utils import str_to_datetime
 from shapely.geometry import box, mapping, shape
 from stactools.core.io import read_text
+from stactools.core.io.xml import XmlElement
 from stactools.core.projection import reproject_geom
 
 from stactools.naip import constants
 from stactools.naip.grid import GridExtension
-from stactools.naip.utils import parse_fgdc_metadata
+from stactools.naip.utils import (
+    maybe_extract_id_and_date,
+    missing_element,
+    parse_fgdc_metadata,
+)
 
 DOQQ_PATTERN: Final[Pattern[str]] = re.compile(r"[A-Za-z]{2}_m_(\d{7})_(ne|se|nw|sw)_")
 
@@ -121,29 +127,61 @@ def create_item(
         )
 
     if fgdc_metadata_href is not None:
-        fgdc_metadata_text = read_text(fgdc_metadata_href)
-        fgdc = parse_fgdc_metadata(fgdc_metadata_text)
-    else:
-        fgdc = {}
+        if year == "2020":
+            file_xpath = (
+                "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/"
+                "gmd:CI_Citation/gmd:title/gco:CharacterString"
+            )
 
-    if "Distribution_Information" in fgdc:
-        resource_desc = fgdc["Distribution_Information"]["Resource_Description"]
+            with fsspec.open(fgdc_metadata_href) as file:
+                root = XmlElement(
+                    etree.parse(file, base_url=fgdc_metadata_href).getroot()
+                )
+                resource_desc = root.find_text_or_throw(
+                    file_xpath, missing_element("File Identifier")
+                )
+                if resource_desc is not None:
+                    dt = str_to_datetime(resource_desc.split(".")[0].split("_")[-1])
+                else:
+                    res = maybe_extract_id_and_date(cog_href)
+                    if res is not None:
+                        resource_desc, dt = res
+                    else:
+                        raise Exception(
+                            f"Could not get the name and date of COG with href: {cog_href}"
+                        )
+
+        elif year < "2020":
+            fgdc_metadata_text = read_text(fgdc_metadata_href)
+            fgdc = parse_fgdc_metadata(fgdc_metadata_text)
+            try:
+                resource_desc = fgdc["Distribution_Information"]["Resource_Description"]
+            except KeyError:
+                resource_desc = os.path.basename(cog_href)
+
+            try:
+                dt = str_to_datetime(
+                    fgdc["Identification_Information"]["Time_Period_of_Content"][
+                        "Time_Period_Information"
+                    ]["Single_Date/Time"]["Calendar_Date"]
+                )
+            except KeyError:
+                dt = str_to_datetime(resource_desc.split(".")[0].split("_")[-1])
+        else:
+            raise Exception(f"Metadata for year {year} is not supported.")
+
     else:
-        resource_desc = os.path.basename(cog_href)
+        res = maybe_extract_id_and_date(cog_href)
+        if res is not None:
+            resource_desc, dt = res
+        else:
+            raise Exception(
+                f"Could not get the name and date of COG with href: {cog_href}"
+            )
+
     item_id = naip_item_id(state, resource_desc)
 
     bounds = list(shape(geom).bounds)
-
-    if any(fgdc):
-        dt = str_to_datetime(
-            fgdc["Identification_Information"]["Time_Period_of_Content"][
-                "Time_Period_Information"
-            ]["Single_Date/Time"]["Calendar_Date"]
-        )
-    else:
-        fname = os.path.splitext(os.path.basename(cog_href))[0]
-        fname_date = fname.split("_")[5]
-        dt = dateutil.parser.isoparse(fname_date)
 
     dt = dt + timedelta(hours=16)  # UTC is +4 ET, so is around 9-12 AM in CONUS
     properties = {"naip:state": state, "naip:year": year}
@@ -185,7 +223,7 @@ def create_item(
     )
 
     # Metadata
-    if any(fgdc) and fgdc_metadata_href is not None:
+    if fgdc_metadata_href is not None:
         item.add_asset(
             "metadata",
             pystac.Asset(

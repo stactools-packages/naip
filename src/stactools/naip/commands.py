@@ -36,7 +36,7 @@ def create_naip_command(cli):
 
         STATE is the state this NAIP tile belongs to.
         COG_HREF is the href to the COG that is the NAIP tile.
-        FGDC_HREF is href to the text metadata file in the NAIP fgdc format.
+        FGDC_HREF is href to the text or XML metadata file in the NAIP fgdc format.
         DST is directory that a STAC Item JSON file will be created
         in.
         """

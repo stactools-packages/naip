@@ -128,18 +128,23 @@ def create_item(
 
     if fgdc_metadata_href is not None:
         if year == "2020":
-            file_xpath = (
+            first_xpath = (
                 "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/"
                 "gmd:CI_Citation/gmd:title/gco:CharacterString"
             )
+
+            second_xpath = "idinfo/citation/citeinfo/title"
 
             with fsspec.open(fgdc_metadata_href) as file:
                 root = XmlElement(
                     etree.parse(file, base_url=fgdc_metadata_href).getroot()
                 )
-                resource_desc = root.find_text_or_throw(
-                    file_xpath, missing_element("File Identifier")
-                )
+                try:
+                    resource_desc = root.find_text(first_xpath)
+                except SyntaxError:
+                    resource_desc = root.find_text_or_throw(
+                        second_xpath, missing_element("File Identifier")
+                    )
                 if resource_desc is not None:
                     dt = str_to_datetime(resource_desc.split(".")[0].split("_")[-1])
                 else:
@@ -156,17 +161,19 @@ def create_item(
             fgdc = parse_fgdc_metadata(fgdc_metadata_text)
             try:
                 resource_desc = fgdc["Distribution_Information"]["Resource_Description"]
-            except KeyError:
-                resource_desc = os.path.basename(cog_href)
-
-            try:
                 dt = str_to_datetime(
                     fgdc["Identification_Information"]["Time_Period_of_Content"][
                         "Time_Period_Information"
                     ]["Single_Date/Time"]["Calendar_Date"]
                 )
             except KeyError:
-                dt = str_to_datetime(resource_desc.split(".")[0].split("_")[-1])
+                res = maybe_extract_id_and_date(cog_href)
+                if res is not None:
+                    resource_desc, dt = res
+                else:
+                    raise Exception(
+                        f"Could not get the name and date of COG with href: {cog_href}"
+                    )
         else:
             raise Exception(f"Metadata for year {year} is not supported.")
 

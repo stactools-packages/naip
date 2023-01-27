@@ -6,7 +6,7 @@ from typing import Callable, Optional, Tuple
 import dateutil.parser
 
 NAIP_FILENAME_REGEX = re.compile(
-    r"m_(?:\d{7})_(?:\w{2})_(?:\d{2})_(?:\w{1,3})_(?P<dt>\d{8})(?:_\d{8})?"
+    r"m_\d{7}_\w{2}_\d{2}_\w{1,3}_(?P<dt>\d{8})(?:_\d{8})?"
 )
 
 

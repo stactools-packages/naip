@@ -5,7 +5,9 @@ from typing import Callable, Optional, Tuple
 
 import dateutil.parser
 
-NAIP_FILENAME_REGEX = re.compile(r"(m)_(\d{7})_(\w{2})_(\d{2})_(\d{1,3})_(\d{8})")
+NAIP_FILENAME_REGEX = re.compile(
+    r"(m)_(\d{7})_(\w{2})_(\d{2})_(\w{1,3})_(\d{8})(_\d{8})?"
+)
 
 
 class MissingElement(Exception):

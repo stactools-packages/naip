@@ -279,10 +279,10 @@ def create_item(
     sci_ext = ItemScientificExtension.ext(item, add_if_missing=True)
     sci_ext.doi = "10.5066/F7QN651G"
 
-    pub_citation = """Maxwell, A. E., Warner, T. A., Vanderbilt, B. C., &amp; Ramezan, C. A. (2017).\n
-    Land cover classification and feature extraction from National Agriculture Imagery Program\n
-    (NAIP) orthoimagery: A Review. Photogrammetric Engineering &amp; Remote Sensing, 83(11),\n
-    737-747. https://doi.org/10.14358/pers.83.10.737"""
+    pub_citation = """Maxwell, A. E., Warner, T. A., Vanderbilt, B. C., &amp; Ramezan, C. A.\n
+    (2017). Land cover classification and feature extraction from National Agriculture Imagery\n
+    Program (NAIP) orthoimagery: A Review. Photogrammetric Engineering &amp; Remote Sensing,\n
+    83(11), 737-747. https://doi.org/10.14358/pers.83.10.737"""
 
     sci_ext.publications = [
         Publication("10.14358/PERS.83.10.737", " ".join(pub_citation.split()))

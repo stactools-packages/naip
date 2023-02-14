@@ -128,9 +128,7 @@ def create_item(
 
     if fgdc_metadata_href is not None:
         if year == "2020":
-            first_xpath = (
-                "gmd:fileIdentifier/gco:CharacterString"
-            )
+            first_xpath = "gmd:fileIdentifier/gco:CharacterString"
 
             second_xpath = "idinfo/citation/citeinfo/title"
 
@@ -154,7 +152,7 @@ def create_item(
                         raise Exception(
                             f"Could not get the name and date of COG with href: {cog_href}"
                         )
-                
+
         elif year < "2020":
             fgdc_metadata_text = read_text(fgdc_metadata_href)
             fgdc = parse_fgdc_metadata(fgdc_metadata_text)

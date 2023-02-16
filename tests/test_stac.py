@@ -2,7 +2,7 @@ import unittest
 from datetime import datetime, timedelta
 
 from pystac.extensions.raster import DataType, RasterExtension
-from pystac.extensions.scientific import ItemScientificExtension
+from pystac.extensions.scientific import CollectionScientificExtension
 from pystac.utils import str_to_datetime
 
 from stactools.naip.stac import create_collection, create_item
@@ -12,6 +12,11 @@ from tests import test_data
 class StacTest(unittest.TestCase):
     def test_create_collection(self):
         collection = create_collection(seasons=[2011, 2013, 2015, 2017, 2019])
+
+        sci_ext = CollectionScientificExtension.ext(collection)
+
+        self.assertEqual(sci_ext.doi, "10.5066/F7QN651G")
+        self.assertGreaterEqual(len(sci_ext.publications), 1)
 
         collection.set_self_href("http://example.com/collection.json")
         collection.validate()
@@ -34,11 +39,6 @@ class StacTest(unittest.TestCase):
             self.assertEqual(raster_band.data_type, DataType.UINT8)
             self.assertEqual(raster_band.unit, "none")
 
-        sci_ext = ItemScientificExtension.ext(item)
-
-        self.assertEqual(sci_ext.doi, "10.5066/F7QN651G")
-        self.assertGreaterEqual(len(sci_ext.publications), 1)
-
     # test stac on year = 2020
     def test_create_item_xml(self):
         item = create_item(
@@ -58,11 +58,6 @@ class StacTest(unittest.TestCase):
             self.assertEqual(raster_band.spatial_resolution, item.properties["gsd"])
             self.assertEqual(raster_band.data_type, DataType.UINT8)
             self.assertEqual(raster_band.unit, "none")
-
-        sci_ext = ItemScientificExtension.ext(item)
-
-        self.assertEqual(sci_ext.doi, "10.5066/F7QN651G")
-        self.assertGreaterEqual(len(sci_ext.publications), 1)
 
         self.assertEqual(type(item.datetime), datetime)
         self.assertEqual(type(item.id), str)

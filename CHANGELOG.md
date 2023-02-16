@@ -6,9 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [0.3.0] - 2023-02-16
+
+### Changed
+
+- Scientific Extension fields are now in the Collection rather than the Item.
+
+### Fixed
+
+- Certain XML files for 2020 have different fields, which are now processed correctly instead
+  generating an error.
+
 ## [0.2.0] - 2023-01-31
 
 First release as a stand-alone repository.
 
-[Unreleased]: https://github.com/stactools-packages/naip/compare/v0.2.0..main
+[Unreleased]: https://github.com/stactools-packages/naip/compare/v0.3.0..main
+[0.3.0]: https://github.com/stactools-packages/naip/tags/v0.3.0
 [0.2.0]: https://github.com/stactools-packages/naip/tags/v0.2.0

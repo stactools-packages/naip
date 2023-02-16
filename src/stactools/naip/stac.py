@@ -128,10 +128,7 @@ def create_item(
 
     if fgdc_metadata_href is not None:
         if year == "2020":
-            first_xpath = (
-                "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/"
-                "gmd:CI_Citation/gmd:title/gco:CharacterString"
-            )
+            first_xpath = "gmd:fileIdentifier/gco:CharacterString"
 
             second_xpath = "idinfo/citation/citeinfo/title"
 
@@ -146,7 +143,7 @@ def create_item(
                         second_xpath, missing_element("File Identifier")
                     )
                 if resource_desc is not None:
-                    dt = str_to_datetime(resource_desc.split(".")[0].split("_")[-1])
+                    dt = str_to_datetime(resource_desc.split("_")[-1])
                 else:
                     res = maybe_extract_id_and_date(cog_href)
                     if res is not None:

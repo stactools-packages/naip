@@ -16,6 +16,7 @@ class StacTest(unittest.TestCase):
         collection.set_self_href("http://example.com/collection.json")
         collection.validate()
 
+    # test stac on years < 2020
     def test_create_item_txt(self):
         item = create_item(
             "al",
@@ -38,6 +39,7 @@ class StacTest(unittest.TestCase):
         self.assertEqual(sci_ext.doi, "10.5066/F7QN651G")
         self.assertGreaterEqual(len(sci_ext.publications), 1)
 
+    # test stac on year = 2020
     def test_create_item_xml(self):
         item = create_item(
             "tx",
@@ -65,8 +67,9 @@ class StacTest(unittest.TestCase):
         self.assertEqual(type(item.datetime), datetime)
         self.assertEqual(type(item.id), str)
 
+    # test stac on year 2011
+    # resource description key is missing from the metadata
     def test_incorrect_metadata_txt(self):
-        # Resource Description key is missing from the metadata
         item = create_item(
             "al",
             "2011",
@@ -77,4 +80,19 @@ class StacTest(unittest.TestCase):
         self.assertEqual(item.id, "al_m_3008501_ne_16_1_20110815")
         self.assertEqual(
             item.datetime, str_to_datetime("20110815") + timedelta(hours=16)
+        )
+
+    # test stac on year 2020
+    # updated resource description location in xml
+    def test_create_item_xml_grid_code(self):
+        item = create_item(
+            "wi",
+            "2020",
+            test_data.get_path("data-files/m_4208701_ne_16_060_20200902.tif"),
+            test_data.get_path("data-files/m_4208701_ne_16_060_20200902_20201202.xml"),
+        )
+
+        self.assertEqual(item.id, "wi_m_4208701_ne_16_060_20200902")
+        self.assertEqual(
+            item.datetime, str_to_datetime("20200902") + timedelta(hours=16)
         )

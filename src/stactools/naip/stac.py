@@ -23,9 +23,8 @@ from stactools.naip import constants
 from stactools.naip.grid import GridExtension
 from stactools.naip.utils import (
     maybe_extract_id_and_date,
-    missing_element,
     parse_fgdc_metadata,
-    process_resource_desc,
+    process_xpath_resource_desc,
 )
 
 DOQQ_PATTERN: Final[Pattern[str]] = re.compile(r"[A-Za-z]{2}_m_(\d{7})_(ne|se|nw|sw)_")
@@ -155,18 +154,18 @@ def create_item(
                 try:
                     resource_desc = root.find_text(first_xpath)
                 except SyntaxError:
-                    resource_desc = root.find_text_or_throw(
-                        second_xpath, missing_element("File Identifier")
-                    )
+                    resource_desc = root.find_text(second_xpath)
+
                 if resource_desc is not None:
-                    resource_desc, dt = process_resource_desc(resource_desc)
+                    resource_desc = process_xpath_resource_desc(resource_desc)
+                    dt = str_to_datetime(resource_desc.split("_")[-1])
                 else:
                     res = maybe_extract_id_and_date(cog_href)
                     if res is not None:
                         resource_desc, dt = res
                     else:
                         raise Exception(
-                            f"Could not get the name and date of COG with href: {cog_href}"
+                            f"Failed to extract item resource_desc and dt: {cog_href}"
                         )
 
         elif year < "2020":
@@ -185,7 +184,7 @@ def create_item(
                     resource_desc, dt = res
                 else:
                     raise Exception(
-                        f"Could not get the name and date of COG with href: {cog_href}"
+                        f"Failed to extract item resource_desc and dt: {cog_href}"
                     )
         else:
             raise Exception(f"Metadata for year {year} is not supported.")
@@ -195,9 +194,7 @@ def create_item(
         if res is not None:
             resource_desc, dt = res
         else:
-            raise Exception(
-                f"Could not get the name and date of COG with href: {cog_href}"
-            )
+            raise Exception(f"Failed to extract item resource_desc and dt: {cog_href}")
 
     item_id = naip_item_id(state, resource_desc)
 

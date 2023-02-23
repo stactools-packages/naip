@@ -25,6 +25,7 @@ from stactools.naip.utils import (
     maybe_extract_id_and_date,
     missing_element,
     parse_fgdc_metadata,
+    process_resource_desc,
 )
 
 DOQQ_PATTERN: Final[Pattern[str]] = re.compile(r"[A-Za-z]{2}_m_(\d{7})_(ne|se|nw|sw)_")
@@ -158,7 +159,7 @@ def create_item(
                         second_xpath, missing_element("File Identifier")
                     )
                 if resource_desc is not None:
-                    dt = str_to_datetime(resource_desc.split("_")[-1])
+                    resource_desc, dt = process_resource_desc(resource_desc)
                 else:
                     res = maybe_extract_id_and_date(cog_href)
                     if res is not None:

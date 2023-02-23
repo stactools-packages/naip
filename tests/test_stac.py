@@ -106,3 +106,20 @@ class StacTest(unittest.TestCase):
         self.assertEqual(
             item.datetime, str_to_datetime("20200415") + timedelta(hours=16)
         )
+
+    # test stac on year 2020
+    # handles resource description pulled from cog_href
+    def test_create_item_xml_cog_href(self):
+        item = create_item(
+            "ca",
+            "2020",
+            test_data.get_path("data-files/m_3211605_ne_11_060_20200415.tif"),
+            test_data.get_path(
+                "data-files/m_3211605_ne_11_060_20200415_20200730_missing_resource_desc.xml"
+            ),
+        )
+
+        self.assertEqual(item.id, "ca_m_3211605_ne_11_060_20200415")
+        self.assertEqual(
+            item.datetime, str_to_datetime("20200415") + timedelta(hours=16)
+        )

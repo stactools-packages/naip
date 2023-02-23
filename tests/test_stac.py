@@ -93,33 +93,22 @@ class StacTest(unittest.TestCase):
         )
 
     # test stac on year 2020
-    # handles resource description with and without ".tif" extension
+    # handles resource desc from xml (with and without ".tif" extension)
+    # handles resource desc pulled from cog_href
     def test_create_item_xml_ext(self):
-        item = create_item(
-            "ca",
-            "2020",
-            test_data.get_path("data-files/m_3211605_ne_11_060_20200415.tif"),
-            test_data.get_path("data-files/m_3211605_ne_11_060_20200415_20200730.xml"),
-        )
+        for filename in [
+            "data-files/m_3211605_ne_11_060_20200415_20200730.xml",
+            "data-files/m_3211605_ne_11_060_20200415_20200730_missing_resource_desc.xml",
+        ]:
 
-        self.assertEqual(item.id, "ca_m_3211605_ne_11_060_20200415")
-        self.assertEqual(
-            item.datetime, str_to_datetime("20200415") + timedelta(hours=16)
-        )
+            item = create_item(
+                "ca",
+                "2020",
+                test_data.get_path("data-files/m_3211605_ne_11_060_20200415.tif"),
+                test_data.get_path(filename),
+            )
 
-    # test stac on year 2020
-    # handles resource description pulled from cog_href
-    def test_create_item_xml_cog_href(self):
-        item = create_item(
-            "ca",
-            "2020",
-            test_data.get_path("data-files/m_3211605_ne_11_060_20200415.tif"),
-            test_data.get_path(
-                "data-files/m_3211605_ne_11_060_20200415_20200730_missing_resource_desc.xml"
-            ),
-        )
-
-        self.assertEqual(item.id, "ca_m_3211605_ne_11_060_20200415")
-        self.assertEqual(
-            item.datetime, str_to_datetime("20200415") + timedelta(hours=16)
-        )
+            self.assertEqual(item.id, "ca_m_3211605_ne_11_060_20200415")
+            self.assertEqual(
+                item.datetime, str_to_datetime("20200415") + timedelta(hours=16)
+            )

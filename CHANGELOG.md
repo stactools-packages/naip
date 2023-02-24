@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Certain XML files for 2020 have inconsistent fields, which are now processed correctly instead generating an error. This is a continuation to work performed for the 0.3.0 version release.
+
 ## [0.3.0] - 2023-02-16
 
 ### Changed

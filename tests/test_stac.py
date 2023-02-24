@@ -1,9 +1,8 @@
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from pystac.extensions.raster import DataType, RasterExtension
 from pystac.extensions.scientific import CollectionScientificExtension
-from pystac.utils import str_to_datetime
 
 from stactools.naip.stac import create_collection, create_item
 from tests import test_data
@@ -74,7 +73,8 @@ class StacTest(unittest.TestCase):
 
         self.assertEqual(item.id, "al_m_3008501_ne_16_1_20110815")
         self.assertEqual(
-            item.datetime, str_to_datetime("20110815") + timedelta(hours=16)
+            item.datetime,
+            datetime.strptime("2011-08-15T16:00:00Z", "%Y-%m-%dT%H:%M:%SZ"),
         )
 
     # test stac on year 2020
@@ -89,5 +89,28 @@ class StacTest(unittest.TestCase):
 
         self.assertEqual(item.id, "wi_m_4208701_ne_16_060_20200902")
         self.assertEqual(
-            item.datetime, str_to_datetime("20200902") + timedelta(hours=16)
+            item.datetime,
+            datetime.strptime("2020-09-02T16:00:00Z", "%Y-%m-%dT%H:%M:%SZ"),
         )
+
+    # test stac on year 2020
+    # handles resource desc from xml (with and without ".tif" extension)
+    # handles resource desc pulled from cog_href
+    def test_create_item_xml_ext(self):
+        for filename in [
+            "data-files/m_3211605_ne_11_060_20200415_20200730.xml",
+            "data-files/m_3211605_ne_11_060_20200415_20200730_missing_resource_desc.xml",
+        ]:
+
+            item = create_item(
+                "ca",
+                "2020",
+                test_data.get_path("data-files/m_3211605_ne_11_060_20200415.tif"),
+                test_data.get_path(filename),
+            )
+
+            self.assertEqual(item.id, "ca_m_3211605_ne_11_060_20200415")
+            self.assertEqual(
+                item.datetime,
+                datetime.strptime("2020-04-15T16:00:00Z", "%Y-%m-%dT%H:%M:%SZ"),
+            )

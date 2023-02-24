@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<idinfo>
+		<citation>
+			<citeinfo>
+				<origin>USDA-Farm Production and Conservation Business Center (FPAC-BC)</origin>
+				<pubdate>20200729</pubdate>
+				<title></title>
+				<geoform>remote-sensing image</geoform>
+				<pubinfo>
+					<pubplace>Salt Lake City, Utah</pubplace>
+					<publish>USDA-Farm Production and Conservation Business Center (FPAC-BC)</publish>
+				</pubinfo>
+			</citeinfo>
+		</citation>
+		<descript>
+			<abstract>This data set contains imagery from the National Agriculture Imagery Program (NAIP).  The NAIP program is administered by USDA FSA and has been established to support two main FSA strategic goals centered on agricultural production. These are, increase stewardship of America's natural resources while enhancing the environment, and to ensure commodities are procured and distributed effectively and efficiently to increase food security.  The NAIP program supports these goals by acquiring and providing ortho imagery that has been collected during the agricultural growing season in the U.S. The NAIP ortho imagery is tailored to meet FSA requirements and is a fundamental tool used to support FSA farm and conservation programs.  Ortho imagery provides an effective, intuitive means of communication about farm program administration between FSA and stakeholders. New technology and innovation is identified by fostering and maintaining a relationship with vendors and government partners, and by keeping pace with the broader geospatial community.  As a result of these efforts the NAIP program provides three main products: DOQQ tiles, Compressed County Mosaics (CCM), and Seamline shape files The Contract specifications for NAIP imagery have changed over time reflecting agency requirements and improving technologies.  These changes include image resolution, horizontal accuracy, coverage area, and number of bands. In general, flying seasons are established by FSA and are targeted for peak crop growing conditions.  The NAIP acquisition cycle is based on a minimum 3 year refresh of base ortho imagery.  The tiling format of the NAIP imagery is based on a 3.75' x 3.75' quarter quadrangle with a 300 pixel buffer on all four sides.  NAIP quarter quads are formatted to the UTM coordinate system using the North American Datum of 1983. NAIP imagery may contain as much as 10% cloud cover per tile.</abstract>
+			<purpose>NAIP imagery is available for distribution within 60 days of the end of a flying season and is intended to provide current information of agricultural conditions in support of USDA farm programs. For USDA Farm Service Agency, the 60 centimeter GSD product provides an ortho image base for Common Land Unit boundaries and other data sets.  The NAIP imagery is generally acquired in projects covering full states in cooperation with state government and other federal agencies that use the imagery for a variety of purposes including land use planning and natural resource assessment.  The NAIP is also used for disaster response.  While suitable for a variety of uses, prior to 2007 the 2 meter GSD NAIP imagery was primarily intended to assess "crop condition and compliance" to USDA farm program conditions. The 2 meter imagery was generally acquired only for agricultural areas within state projects.</purpose>
+			<supplinf>none</supplinf>
+		</descript>
+		<timeperd>
+			<timeinfo>
+				<sngdate>
+					<caldate>20200415</caldate>
+				</sngdate>
+			</timeinfo>
+			<current>Ground Condition</current>
+		</timeperd>
+		<status>
+			<progress>Complete</progress>
+			<update>Irregular</update>
+		</status>
+		<spdom>
+			<bounding>
+				<westbc>-116.440033</westbc>
+				<eastbc>-116.372369</eastbc>
+				<northbc>33.002107</northbc>
+				<southbc>32.935383</southbc>
+			</bounding>
+		</spdom>
+		<keywords>
+			<theme>
+				<themekt>None</themekt>
+				<themekey>farming</themekey>
+				<themekey>Digital Ortho rectified Image</themekey>
+				<themekey>Ortho Rectification</themekey>
+				<themekey>Quarter Quadrangle</themekey>
+				<themekey>NAIP</themekey>
+				<themekey>Aerial Compliance</themekey>
+				<themekey>Compliance</themekey>
+			</theme>
+			<place>
+				<placekt>Geographic Names Information System</placekt>
+				<placekey>CA</placekey>
+				<placekey>San Diego</placekey>
+				<placekey>San Diego CO CA FSA</placekey>
+				<placekey>06073</placekey>
+			</place>
+		</keywords>
+		<accconst>There are no limitations for access.</accconst>
+		<useconst>None.  The USDA-Farm Production and Conservation Business Center (FPAC-BC) asks to be credited in derived products.</useconst>
+		<ptcontac>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>Farm Production and Conservation Business Center (FPAC-BC)</cntorg>
+				</cntorgp>
+				<cntaddr>
+					<addrtype>mailing and physical address</addrtype>
+					<address>125 S. State St. Suite 6416</address>
+					<city>Salt Lake City</city>
+					<state>Utah</state>
+					<postal>84138</postal>
+					<country>USA</country>
+				</cntaddr>
+				<cntvoice>801-844-2922</cntvoice>
+				<cntfax>801-956-3653</cntfax>
+				<cntemail>apfo.sales@slc.usda.gov</cntemail>
+			</cntinfo>
+		</ptcontac>
+		<browse>
+			<browsen>None</browsen>
+			<browsed>None</browsed>
+			<browset>None</browset>
+		</browse>
+		<native>Microsoft Windows 7 Service Pack 1, ESRI ESRI ArcGIS 10.4.1</native>
+	</idinfo>
+	<dataqual>
+		<logic>NAIP 3.75 minute tile file names are based on the USGS quadrangle naming convention.</logic>
+		<complete>None</complete>
+		<posacc>
+			<horizpa>
+				<horizpar>NAIP horizontal accuracy specifications have evolved over the life of the program.  From 2003 to 2004 the specifications were as follows: 1-meter GSD imagery was to match within 3-meters, and 2-meter GSD to match within 10 meters of reference imagery.  For 2005 the 1-meter GSD specification was changed to 5 meters matching the reference imagery.  In 2006 a pilot project was performed using true ground specifications rather than reference imagery.  All states used the same specifications as 2005 except Utah, which required a match of +/- 6 meters to true ground. In 2007 all specifications were the same as 2006 except Arizona used true ground specifications and all other states used reference imagery. In 2008 and subsequent years no 2-meter GSD imagery was acquired and all specifications were the same as 2007 except approximately half of the states acquired used true ground specifications and the other half used reference imagery. The 2008 states that used absolute ground control were; Indiana, Minnesota, New Hampshire, North Carolina, Texas, Vermont, and Virginia. Beginning in 2009, all NAIP imagery acquisitions used the +/- 6 meters to ground and in 2016 the specification was changed to +/- 4 meters to true ground.</horizpar>
+			</horizpa>
+		</posacc>
+		<lineage>
+			<procstep>
+				<procdesc>Digital imagery was collected at a nominal GSD of 50cm using 7 Cessna 441's, one Cessna F406, one Piper PAY2 and one Swearingen Merlin-3 aircraft flying at an average flight height of 4229m AGL for the SH120 acquisition and 5289m AGL for SH100 acquisition. Aircraft flew with Leica Geosystem's ADS100/SH100 digital sensors with firmware 4.60 or ADS100/SH120 digital sensors with firmware 4.60. Each sensor collected 12 image bands Red, Green, Blue and Near-infrared at each of three look angles; Backward 19 degrees, Forward 26 degrees and Nadir for the SH100.   Backward 10 degrees, Forward 14 degrees, and Nadir for the SH120. The Nadir Green band was collected in high resolution mode effectively doubling the resolution for that band.  The ADS100 spectral ranges are; Red 619-651nm, Green 525-585nm, Blue 435-495nm and Near-infrared at 808-882nm. The CCD arrays have a pixel size of 5.0 microns in a 20000x1 format at nadir; a 18000x1 format at the backward look angle and a 16000x1 format at the forward look angle. The CCD's have a dynamic range of 72db and the A/D converters have a resolution of 14bits.  The ADS is a push-broom sensor the ground footprint of the imagery is approximately 6km wide at a nominal 50cm GSD, by the length flightline. The maximum flightline length is limited to approximately 130km. The factory calibrations and IMU alignments for each sensor (Serial Numbers: 10511, 10512, 10514, 10527, 10528, 10531, 10534, 10540, 10554, 12502, 12503, 12529) were tested and verified by in-situ test flights before the start of the project. The Leica MissionPro Flight Planning Software is used to develop the flight acquisition plans. Flight acquisition sub blocks are designed first to define the GNSS base station logistics, and to break the project up into manageable acquisition units. The flight acquisition sub blocks are designed based on the specified acquisition season, native UTM zone of the DOQQs, flight line length limitations (to ensure sufficient performance of the IMU solution) as well as air traffic restrictions in the area. Once the sub blocks have been delineated they are brought into MissionPro for flight line design. The design parameters used in MissionPro will be 30% lateral overlap and 50cm resolution.  The flight lines have been designed with a north/south orientation or east/west where required for efficiency. The design takes into account the latitude of the state, which affects line spacing due to convergence as well as the terrain. SRTM elevation data is used in the MissionPro design to ensure the 50cm GSD is achieved over all types of terrain.  The raw data was downloaded from the sensors after each flight using Leica XPro software. The imagery was then georeferenced using the 200Hz GPS/INS data creating an exterior orientation for each scan line (x/y/z/o/p/k). Leica Xpro APM software was used to automatically generate tiepoint measurements between the forward, nadir and backward look angles for each line and to tie all flight lines together. The resulting point data and exterior orientation data were used to perform a full bundle adjustment using ORIMA software. Blunders were removed, and additional tie points measured in weak areas to ensure a robust solution. Once the point data was clean and point coverage was acceptable, photo-identifiable GPS-surveyed ground control points were introduced into the block adjustment. The bundle adjustment process produces revised exterior orientation data for the sensor with GPS/INS, datum, and sensor calibration errors modeled and removed. Using the revised exterior orientation from the bundle adjustment, orthorectified image strips were created with Xpro software and the 2018 or newer HxIP DEM. The Xpro orthorectification software applies an atmospheric-BRDF radiometric correction to the imagery. This correction compensates for atmospheric absorption, solar illumination angle and bi-directional reflectance. The orthorectified strips were then overlaid with each other and the ground control to check accuracy. Once the accuracy of the orthorectified image strips were validated the strips were then imported into Inpho's OrthoVista 7.1.2 package which was used for the final radiometric balance, mosaic, and DOQQ sheet creation. The final DOQQ sheets, with a 300m buffer and a ground pixel resolution of 60cm were then combined and compressed to create the county wide CCMs.</procdesc>
+				<procdate>20200729</procdate>
+			</procstep>
+		</lineage>
+	</dataqual>
+	<spdoinfo>
+		<indspref>California</indspref>
+		<direct>Raster</direct>
+		<rastinfo>
+			<rasttype>Pixel</rasttype>
+			<rowcount>12270</rowcount>
+			<colcount>10470</colcount>
+		</rastinfo>
+	</spdoinfo>
+	<spref>
+		<horizsys>
+			<planar>
+				<gridsys>
+					<gridsysn>Universal Transverse Mercator</gridsysn>
+					<utm>
+						<utmzone>11</utmzone>
+						<transmer>
+							<sfctrmer>0.9996</sfctrmer>
+							<longcm>-117</longcm>
+							<latprjo>0.0</latprjo>
+							<feast>500000</feast>
+							<fnorth>0.0</fnorth>
+						</transmer>
+					</utm>
+				</gridsys>
+				<planci>
+					<plance>row and column</plance>
+					<coordrep>
+						<absres>0.6</absres>
+						<ordres>0.6</ordres>
+					</coordrep>
+					<plandu>meters</plandu>
+				</planci>
+			</planar>
+			<geodetic>
+				<horizdn>North American Datum of 1983</horizdn>
+				<ellips>Geodetic Reference System 80 (GRS 80)</ellips>
+				<semiaxis>6378137</semiaxis>
+				<denflat>298.257</denflat>
+			</geodetic>
+		</horizsys>
+	</spref>
+	<eainfo>
+		<overview>
+			<eaover>8-bit pixels per band, 0-255, 4-band RGBiR</eaover>
+			<eadetcit>None</eadetcit>
+		</overview>
+	</eainfo>
+	<distinfo>
+		<distrib>
+			<cntinfo>
+				<cntperp>
+					<cntper>Supervisor Customer Services Section</cntper>
+					<cntorg>USDA-FPAC-BC Farm Production and Conservation Business Center</cntorg>
+				</cntperp>
+				<cntaddr>
+					<addrtype>mailing and physical address</addrtype>
+					<address>125 S. State St. Suite 6416</address>
+					<city>Salt Lake City</city>
+					<state>Utah</state>
+					<postal>84138</postal>
+					<country>USA</country>
+				</cntaddr>
+				<cntvoice>801-844-2922</cntvoice>
+				<cntfax>801-956-3653</cntfax>
+				<cntemail>apfo.sales@slc.usda.gov</cntemail>
+			</cntinfo>
+		</distrib>
+		<resdesc>none</resdesc>
+		<distliab>In no event shall the creators, custodians, or distributors of this information be liable for any damages arising out of its use (or the inability to use it).</distliab>
+		<stdorder>
+			<digform>
+				<digtinfo>
+					<formname>digital orthorectified quarter quad</formname>
+					<formcont>digital orthoimagery</formcont>
+				</digtinfo>
+				<digtopt>
+					<offoptn>
+						<offmedia>CD-ROM</offmedia>
+						<recfmt>ISO 9660 Mode 1 Level 2 Extensions</recfmt>
+					</offoptn>
+					<offoptn>
+						<offmedia>DVD-R</offmedia>
+						<recfmt>ISO 9660</recfmt>
+					</offoptn>
+					<offoptn>
+						<offmedia>USB Hard Disk</offmedia>
+						<recfmt>NTFS</recfmt>
+					</offoptn>
+					<offoptn>
+						<offmedia>Thumbdrive USB</offmedia>
+						<recfmt>NTFS</recfmt>
+					</offoptn>
+				</digtopt>
+			</digform>
+			<fees>Contact the Farm Production and Conservation Business Center for more information</fees>
+		</stdorder>
+	</distinfo>
+	<metainfo>
+		<metd>20200729</metd>
+		<metc>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>USDA-FPAC-BC Farm Production and Conservation Business Center</cntorg>
+				</cntorgp>
+				<cntaddr>
+					<addrtype>mailing and physical address</addrtype>
+					<address>125 S. State St. Suite 6416</address>
+					<city>Salt Lake City</city>
+					<state>Utah</state>
+					<postal>84138</postal>
+					<country>USA</country>
+				</cntaddr>
+				<cntvoice>801-844-2922</cntvoice>
+			</cntinfo>
+		</metc>
+		<metstdn>Content Standard for Digital Geospatial Metadata</metstdn>
+		<metstdv>FGDC-STD-001-1998</metstdv>
+	</metainfo>
+</metadata>

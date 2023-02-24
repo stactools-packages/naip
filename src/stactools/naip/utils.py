@@ -1,7 +1,7 @@
 import os
 import re
 from datetime import datetime
-from typing import Callable, Optional, Tuple
+from typing import Optional, Tuple
 
 import dateutil.parser
 
@@ -74,15 +74,6 @@ def parse_fgdc_metadata(md_text):
     return _parse(md_text.split("\n"), group_indent=0)["Metadata"]
 
 
-def missing_element(attribute: str) -> Callable[[str], Exception]:
-    def get_exception(xpath: str) -> Exception:
-        return MissingElement(
-            f"Could not find attribute `{attribute}` at xpath '{xpath}'."
-        )
-
-    return get_exception
-
-
 def maybe_extract_id_and_date(cog_href: str) -> Optional[Tuple[str, datetime]]:
     resource_desc = os.path.basename(cog_href)
     name = os.path.splitext(resource_desc)[0]
@@ -91,3 +82,10 @@ def maybe_extract_id_and_date(cog_href: str) -> Optional[Tuple[str, datetime]]:
         return None
     dt = dateutil.parser.isoparse(m.group("dt"))
     return resource_desc, dt
+
+
+def process_xpath_resource_desc(resource_desc: Optional[str]) -> Optional[str]:
+    # if ".tif" extension included, remove
+    if resource_desc is not None and resource_desc.endswith(".tif"):
+        resource_desc = resource_desc[:-4]
+    return resource_desc

@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Add Projection Extension field proj:centroid ([#38](https://github.com/stactools-packages/naip/pull/38))
+
 ## [v0.3.1] - 2023-02-24
 
 ### Fixed

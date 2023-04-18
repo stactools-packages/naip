@@ -198,7 +198,8 @@ def create_item(
 
     item_id = naip_item_id(state, resource_desc)
 
-    bounds = list(shape(geom).bounds)
+    shapely_shape = shape(geom)
+    bounds = list(shapely_shape.bounds)
 
     dt = dt + timedelta(hours=16)  # UTC is +4 ET, so is around 9-12 AM in CONUS
     properties = {"naip:state": state, "naip:year": year}
@@ -222,6 +223,8 @@ def create_item(
     projection.shape = image_shape
     projection.bbox = original_bbox
     projection.transform = transform
+    centroid = shapely_shape.centroid
+    projection.centroid = {"lat": round(centroid.y, 5), "lon": round(centroid.x, 5)}
 
     # Grid Extension
     grid = GridExtension.ext(item, add_if_missing=True)

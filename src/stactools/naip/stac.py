@@ -9,6 +9,7 @@ import pystac
 import rasterio as rio
 from lxml import etree
 from pystac.extensions.eo import EOExtension
+from pystac.extensions.grid import GridExtension
 from pystac.extensions.item_assets import ItemAssetsExtension
 from pystac.extensions.projection import ProjectionExtension
 from pystac.extensions.raster import DataType, RasterBand, RasterExtension
@@ -20,7 +21,6 @@ from stactools.core.io.xml import XmlElement
 from stactools.core.projection import reproject_geom
 
 from stactools.naip import constants
-from stactools.naip.grid import GridExtension
 from stactools.naip.utils import (
     maybe_extract_id_and_date,
     parse_fgdc_metadata,

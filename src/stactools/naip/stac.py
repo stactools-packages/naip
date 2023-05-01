@@ -3,8 +3,9 @@ import os
 import re
 from datetime import timedelta
 from typing import Final, List, Optional, Pattern
-import pyproj
+
 import fsspec
+import pyproj
 import pystac
 import rasterio as rio
 import shapely
@@ -142,7 +143,13 @@ def create_item(
         transform = list(ds.transform)
 
         transformer = pyproj.Transformer.from_crs(ds.crs, "epsg:4326", always_xy=True)
-        list(transformer.transform(xx=_bbox.exterior.coords[0][0], yy=_bbox.exterior.coords[0][1], errcheck=True))
+        list(
+            transformer.transform(
+                xx=_bbox.exterior.coords[0][0],
+                yy=_bbox.exterior.coords[0][1],
+                errcheck=True,
+            )
+        )
 
         geom = reproject_geom(
             ds.crs,

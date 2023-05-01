@@ -207,7 +207,8 @@ def create_item(
     import json
 
     raise Exception(
-        f"Centroid: '{centroid}' : {json.dumps(shapely.geometry.mapping(shapely_shape))}"
+        f"Centroid: '{centroid}' : {json.dumps(geom)} : "
+        + f"{json.dumps(shapely.geometry.mapping(shapely_shape))}"
     )
 
     dt = dt + timedelta(hours=16)  # UTC is +4 ET, so is around 9-12 AM in CONUS

@@ -18,7 +18,7 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
         usage
     else
         python -m pip install --upgrade pip
-        pip install . --no-binary rasterio
+        pip install .
         pip install -r requirements-dev.txt
     fi
 fi

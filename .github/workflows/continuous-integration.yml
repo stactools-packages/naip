@@ -56,7 +56,6 @@ jobs:
       - run: |
           conda info
           conda list
-      - run: ls -la /etc/pki/tls/certs/ca-bundle.crt
       - run: curl https://curl.se/ca/cacert.pem -o /etc/pki/tls/certs/ca-bundle.crt
       - name: Execute linters and test suites
         run: ./scripts/cibuild

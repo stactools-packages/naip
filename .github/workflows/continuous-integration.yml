@@ -55,6 +55,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           channels: conda-forge
       - run: |
+          conda install -c conda-forge pandoc
           conda info
           conda list
       - name: Execute linters and test suites

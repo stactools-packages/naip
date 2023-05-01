@@ -7,6 +7,7 @@ from typing import Final, List, Optional, Pattern
 import fsspec
 import pystac
 import rasterio as rio
+import shapely
 from lxml import etree
 from pystac.extensions.eo import EOExtension
 from pystac.extensions.grid import GridExtension
@@ -15,7 +16,6 @@ from pystac.extensions.projection import ProjectionExtension
 from pystac.extensions.raster import DataType, RasterBand, RasterExtension
 from pystac.extensions.scientific import CollectionScientificExtension, Publication
 from pystac.utils import str_to_datetime
-from shapely.geometry import box, mapping, shape
 from stactools.core.io import read_text
 from stactools.core.io.xml import XmlElement
 from stactools.core.projection import reproject_geom
@@ -138,7 +138,10 @@ def create_item(
         original_bbox = list(ds.bounds)
         transform = list(ds.transform)
         geom = reproject_geom(
-            ds.crs, "epsg:4326", mapping(box(*ds.bounds)), precision=6
+            ds.crs,
+            "epsg:4326",
+            shapely.geometry.mapping(shapely.geometry.box(*ds.bounds)),
+            precision=6,
         )
 
     if fgdc_metadata_href is not None:
@@ -198,8 +201,10 @@ def create_item(
 
     item_id = naip_item_id(state, resource_desc)
 
-    shapely_shape = shape(geom)
+    shapely_shape = shapely.geometry.shape(geom)
     bounds = list(shapely_shape.bounds)
+    centroid = shapely_shape.centroid
+    print(f"Centroid: '{centroid}'")
 
     dt = dt + timedelta(hours=16)  # UTC is +4 ET, so is around 9-12 AM in CONUS
     properties = {"naip:state": state, "naip:year": year}
@@ -223,7 +228,6 @@ def create_item(
     projection.shape = image_shape
     projection.bbox = original_bbox
     projection.transform = transform
-    centroid = shapely_shape.centroid
     projection.centroid = {"lat": round(centroid.y, 5), "lon": round(centroid.x, 5)}
 
     # Grid Extension

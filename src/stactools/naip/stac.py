@@ -132,7 +132,8 @@ def create_item(
     """
 
     with rio.open(cog_href) as ds:
-        geomm = shapely.geometry.mapping(shapely.geometry.box(*ds.bounds))
+        _bounds = ds.bounds
+        _geom = shapely.geometry.mapping(shapely.geometry.box(*ds.bounds))
         gsd = round(ds.res[0], 1)
         epsg = int(ds.crs.to_authority()[1])
         image_shape = list(ds.shape)
@@ -209,7 +210,8 @@ def create_item(
 
     raise Exception(
         f"Centroid: '{centroid}' : "
-        + f"orig> {json.dumps(geomm)} : "
+        + f"bbox> {json.dumps(_bounds)} : "
+        + f"orig> {json.dumps(_geom)} : "
         + f"reproj> {json.dumps(geom)} : "
         + f"shapely> {json.dumps(shapely.geometry.mapping(shapely_shape))}"
     )

@@ -132,6 +132,7 @@ def create_item(
     """
 
     with rio.open(cog_href) as ds:
+        geomm = shapely.geometry.mapping(shapely.geometry.box(*ds.bounds))
         gsd = round(ds.res[0], 1)
         epsg = int(ds.crs.to_authority()[1])
         image_shape = list(ds.shape)
@@ -207,8 +208,10 @@ def create_item(
     import json
 
     raise Exception(
-        f"Centroid: '{centroid}' : {json.dumps(geom)} : "
-        + f"{json.dumps(shapely.geometry.mapping(shapely_shape))}"
+        f"Centroid: '{centroid}' : "
+        + f"orig> {json.dumps(geomm)} : "
+        + f"reproj> {json.dumps(geom)} : "
+        + f"shapely> {json.dumps(shapely.geometry.mapping(shapely_shape))}"
     )
 
     dt = dt + timedelta(hours=16)  # UTC is +4 ET, so is around 9-12 AM in CONUS

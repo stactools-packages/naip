@@ -55,6 +55,6 @@ jobs:
       - name: Update Conda's environment
         run: conda env update -f environment.yml -n test
       - run: gdalinfo --version
-      - run: geosop --version
+      - run: geosop
       - name: Execute linters and test suites
         run: ./scripts/cibuild

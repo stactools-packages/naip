@@ -3,7 +3,7 @@ import os
 import re
 from datetime import timedelta
 from typing import Final, List, Optional, Pattern
-
+import pyproj
 import fsspec
 import pystac
 import rasterio as rio
@@ -133,12 +133,17 @@ def create_item(
 
     with rio.open(cog_href) as ds:
         _bounds = ds.bounds
+        _bbox = shapely.geometry.box(*ds.bounds)
         _geom = shapely.geometry.mapping(shapely.geometry.box(*ds.bounds))
         gsd = round(ds.res[0], 1)
         epsg = int(ds.crs.to_authority()[1])
         image_shape = list(ds.shape)
         original_bbox = list(ds.bounds)
         transform = list(ds.transform)
+
+        transformer = pyproj.Transformer.from_crs(ds.crs, "epsg:4326", always_xy=True)
+        list(transformer.transform(xx=_bbox.exterior.coords[0][0], yy=_bbox.exterior.coords[0][1], errcheck=True))
+
         geom = reproject_geom(
             ds.crs,
             "epsg:4326",

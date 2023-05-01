@@ -27,6 +27,8 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
             docs/*.rst docs/**/*.rst \
             docs/*.ipynb docs/**/*.ipynb
 
+        conda info
+        conda list
         pytest --cov=stactools.naip tests/
         coverage xml
     fi

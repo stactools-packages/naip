@@ -53,5 +53,9 @@ jobs:
           auto-update-conda: true
           environment-file: environment.yml
           python-version: ${{ matrix.python-version }}
+          channels: conda-forge
+      - run: |
+          conda info
+          conda list
       - name: Execute linters and test suites
         run: ./scripts/cibuild

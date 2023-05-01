@@ -204,7 +204,11 @@ def create_item(
     shapely_shape = shapely.geometry.shape(geom)
     bounds = list(shapely_shape.bounds)
     centroid = shapely_shape.centroid
-    print(f"Centroid: '{centroid}'")
+    import json
+
+    raise Exception(
+        f"Centroid: '{centroid}' : {json.dumps(shapely.geometry.mapping(shapely_shape))}"
+    )
 
     dt = dt + timedelta(hours=16)  # UTC is +4 ET, so is around 9-12 AM in CONUS
     properties = {"naip:state": state, "naip:year": year}

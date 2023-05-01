@@ -43,6 +43,7 @@ class StacTest(unittest.TestCase):
         projection = ProjectionExtension.ext(item)
         projection.centroid["lat"] == pytest.approx(30.96876)
         projection.centroid["lon"] == pytest.approx(-85.90624)
+        assert False
 
     # test stac on year = 2020
     def test_create_item_xml(self):

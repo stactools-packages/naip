@@ -53,10 +53,9 @@ jobs:
           auto-update-conda: true
           environment-file: environment.yml
           python-version: ${{ matrix.python-version }}
-      - run: |
-          conda info
-          conda list
-      - run: sudo mkdir -p /etc/pki/tls/certs
-      - run: sudo curl https://curl.se/ca/cacert.pem -o /etc/pki/tls/certs/ca-bundle.crt
+      - name: update certs so PROJ can download the us_noaa_cshpgn.tif file
+        run: |
+          sudo mkdir -p /etc/pki/tls/certs
+          sudo curl https://curl.se/ca/cacert.pem -o /etc/pki/tls/certs/ca-bundle.crt
       - name: Execute linters and test suites
         run: ./scripts/cibuild

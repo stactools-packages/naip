@@ -5,7 +5,6 @@ from datetime import timedelta
 from typing import Final, List, Optional, Pattern
 
 import fsspec
-import pyproj
 import pystac
 import rasterio as rio
 import shapely
@@ -133,24 +132,11 @@ def create_item(
     """
 
     with rio.open(cog_href) as ds:
-        _bounds = ds.bounds
-        _bbox = shapely.geometry.box(*ds.bounds)
-        _geom = shapely.geometry.mapping(shapely.geometry.box(*ds.bounds))
         gsd = round(ds.res[0], 1)
         epsg = int(ds.crs.to_authority()[1])
         image_shape = list(ds.shape)
         original_bbox = list(ds.bounds)
         transform = list(ds.transform)
-
-        transformer = pyproj.Transformer.from_crs(ds.crs, "epsg:4326", always_xy=True)
-        list(
-            transformer.transform(
-                xx=_bbox.exterior.coords[0][0],
-                yy=_bbox.exterior.coords[0][1],
-                errcheck=True,
-            )
-        )
-
         geom = reproject_geom(
             ds.crs,
             "epsg:4326",
@@ -218,15 +204,6 @@ def create_item(
     shapely_shape = shapely.geometry.shape(geom)
     bounds = list(shapely_shape.bounds)
     centroid = shapely_shape.centroid
-    import json
-
-    raise Exception(
-        f"Centroid: '{centroid}' : "
-        + f"bbox> {json.dumps(_bounds)} : "
-        + f"orig> {json.dumps(_geom)} : "
-        + f"reproj> {json.dumps(geom)} : "
-        + f"shapely> {json.dumps(shapely.geometry.mapping(shapely_shape))}"
-    )
 
     dt = dt + timedelta(hours=16)  # UTC is +4 ET, so is around 9-12 AM in CONUS
     properties = {"naip:state": state, "naip:year": year}

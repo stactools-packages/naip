@@ -1,6 +1,8 @@
 import unittest
 from datetime import datetime
 
+import pytest
+from pystac.extensions.projection import ProjectionExtension
 from pystac.extensions.raster import DataType, RasterExtension
 from pystac.extensions.scientific import CollectionScientificExtension
 
@@ -37,6 +39,10 @@ class StacTest(unittest.TestCase):
             self.assertEqual(raster_band.spatial_resolution, item.properties["gsd"])
             self.assertEqual(raster_band.data_type, DataType.UINT8)
             self.assertEqual(raster_band.unit, "none")
+
+        projection = ProjectionExtension.ext(item)
+        projection.centroid["lat"] == pytest.approx(30.96876)
+        projection.centroid["lon"] == pytest.approx(-85.90624)
 
     # test stac on year = 2020
     def test_create_item_xml(self):
@@ -101,7 +107,6 @@ class StacTest(unittest.TestCase):
             "data-files/m_3211605_ne_11_060_20200415_20200730.xml",
             "data-files/m_3211605_ne_11_060_20200415_20200730_missing_resource_desc.xml",
         ]:
-
             item = create_item(
                 "ca",
                 "2020",

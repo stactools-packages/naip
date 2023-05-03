@@ -33,8 +33,6 @@ jobs:
     defaults:
       run:
         shell: bash -l {0}
-    env:
-      SSL_CERT_DIR: "/etc/ssl/certs"
     steps:
       - uses: actions/checkout@v3
       - name: Set up conda cache
@@ -55,5 +53,7 @@ jobs:
           auto-update-conda: true
           environment-file: environment.yml
           python-version: ${{ matrix.python-version }}
+      - name: Find certs
+        run: find /etc -iname ca-bundle.crt
       - name: Execute linters and test suites
         run: ./scripts/cibuild

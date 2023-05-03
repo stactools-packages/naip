@@ -13,4 +13,4 @@ def register_plugin(registry):
     registry.register_subcommand(commands.create_naip_command)
 
 
-__version__ = "0.3.1"
+__version__ = "0.3.2"

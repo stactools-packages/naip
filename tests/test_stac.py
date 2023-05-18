@@ -5,6 +5,7 @@ import pytest
 from pystac.extensions.projection import ProjectionExtension
 from pystac.extensions.raster import DataType, RasterExtension
 from pystac.extensions.scientific import CollectionScientificExtension
+from pystac.utils import datetime_to_str
 
 from stactools.naip.stac import create_collection, create_item
 from tests import test_data
@@ -44,8 +45,7 @@ class StacTest(unittest.TestCase):
         projection.centroid["lat"] == pytest.approx(30.96876)
         projection.centroid["lon"] == pytest.approx(-85.90624)
 
-    # test stac on year = 2020
-    def test_create_item_xml(self):
+    def test_create_item_xml_2020(self):
         item = create_item(
             "tx",
             "2020",
@@ -66,6 +66,31 @@ class StacTest(unittest.TestCase):
 
         self.assertEqual(type(item.datetime), datetime)
         self.assertEqual(type(item.id), str)
+
+    def test_create_item_xml_2021(self):
+        item = create_item(
+            "va",
+            "2021",
+            test_data.get_path(
+                "data-files/m_3907864_sw_17_060_20210912_downsampled.tif"
+            ),
+            test_data.get_path("data-files/m_3907864_sw_17_060_20210912_20211220.xml"),
+        )
+
+        image_asset = item.assets["image"]
+        raster_ext = RasterExtension.ext(image_asset)
+        self.assertEqual(len(raster_ext.bands), 4)
+        for raster_band in RasterExtension.ext(image_asset).bands:
+            self.assertEqual(raster_band.nodata, 0)
+            self.assertEqual(raster_band.spatial_resolution, item.properties["gsd"])
+            self.assertEqual(raster_band.data_type, DataType.UINT8)
+            self.assertEqual(raster_band.unit, "none")
+
+        self.assertEqual(datetime_to_str(item.datetime), "2021-09-12T16:00:00Z")
+        self.assertEqual(item.id, "va_m_3907864_sw_17_060_20210912")
+        self.assertEqual(
+            item.properties["proj:centroid"], {"lat": 39.0315, "lon": -78.09348}
+        )
 
     # test stac on year 2011
     # resource description key is missing from the metadata

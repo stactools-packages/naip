@@ -9,6 +9,7 @@ import pystac
 import rasterio as rio
 import shapely
 from lxml import etree
+from pystac import Item
 from pystac.extensions.eo import EOExtension
 from pystac.extensions.grid import GridExtension
 from pystac.extensions.item_assets import ItemAssetsExtension
@@ -109,7 +110,7 @@ def create_item(
     fgdc_metadata_href: Optional[str],
     thumbnail_href=None,
     additional_providers=None,
-):
+) -> Item:
     """Creates a STAC Item from NAIP data.
 
     Args:
@@ -144,8 +145,8 @@ def create_item(
             precision=6,
         )
 
-    if fgdc_metadata_href is not None:
-        if year == "2020":
+    if fgdc_metadata_href:
+        if year in ["2020", "2021"]:
             first_xpath = "gmd:fileIdentifier/gco:CharacterString"
 
             second_xpath = "idinfo/citation/citeinfo/title"

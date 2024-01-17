@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). This project attempts to match the major and minor versions of [stactools](https://github.com/stac-utils/stactools) and increments the patch number as needed.
 
-## [Unreleased]
+## [v0.5.0] - 2024-01-17
 
 ### Added
 
@@ -47,7 +47,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 First release as a stand-alone repository.
 
-[Unreleased]: https://github.com/stactools-packages/naip/compare/v0.4.0..main
+[Unreleased]: https://github.com/stactools-packages/naip/compare/v0.5.0..main
+[v0.4.0]: https://github.com/stactools-packages/naip/compare/v0.4.0..v0.5.0
 [v0.4.0]: https://github.com/stactools-packages/naip/compare/v0.3.2..v0.4.0
 [v0.3.2]: https://github.com/stactools-packages/naip/compare/v0.3.1..v0.3.2
 [v0.3.1]: https://github.com/stactools-packages/naip/compare/v0.3.0..v0.3.1

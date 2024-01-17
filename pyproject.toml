@@ -1,3 +1,42 @@
+[project]
+name = "stactools-naip"
+dynamic = ["version"]
+description = "STAC item creation tools for NAIP dataset."
+readme = "README.md"
+authors = [{name = "stac-utils", email = "stac@radiant.earth"}]
+keywords = ["stactools", "pystac", "catalog", "STAC"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11"
+]
+requires-python = ">=3.8"
+dependencies = [
+    "stactools>=0.4.3",
+    "pystac>=1.5"
+]
+
+[tool.setuptools.dynamic]
+version = { attr = "stactools.naip.__version__" }
+
+[project.urls]
+homepage = "https://github.com/stactools-naips/stactools-naip"
+documentation = "https://stactools-naip.readthedocs.io/en/latest/"
+
+[project.optional-dependencies]
+dev = [
+    "black~=23.3",
+    "codespell~=2.2",
+    "coverage~=7.4.0",
+    "pre-commit~=3.6.0",
+    "flake8~=7.0.0",
+    "pytest-cov~=3.0",
+    "pytest~=7.3",
+]
+
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"

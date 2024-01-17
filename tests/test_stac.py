@@ -144,3 +144,14 @@ class StacTest(unittest.TestCase):
                 item.datetime,
                 datetime.strptime("2020-04-15T16:00:00Z", "%Y-%m-%dT%H:%M:%SZ"),
             )
+
+    def test_create_item_2022(self):
+        item = create_item(
+            "ca",
+            "2022",
+            test_data.get_path("data-files/m_4112001_sw_10_060_20220716.tif"),
+            test_data.get_path("data-files/m_4112001_sw_10_060_20220716.xml"),
+        )
+        self.assertEqual(item.id, "ca_m_4112001_sw_10_060_20220716")
+        schemas = item.validate()
+        self.assertTrue(schemas)

@@ -25,7 +25,7 @@ stac naip create-item --fgdc m_3707763_se_18_060_20180825.txt \
 ## Development
 
 ```shell
-pip install -r requirements-dev.txt
+pip install -e .[dev]
 ```
 
 

@@ -1,7 +1,0 @@
-black
-codespell
-coverage
-flake8
-pre-commit
-pytest
-pytest-cov

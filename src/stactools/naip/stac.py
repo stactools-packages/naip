@@ -146,7 +146,25 @@ def create_item(
         )
 
     if fgdc_metadata_href:
-        if year in ["2020", "2021"]:
+        if year < "2020":
+            fgdc_metadata_text = read_text(fgdc_metadata_href)
+            fgdc = parse_fgdc_metadata(fgdc_metadata_text)
+            try:
+                resource_desc = fgdc["Distribution_Information"]["Resource_Description"]
+                dt = str_to_datetime(
+                    fgdc["Identification_Information"]["Time_Period_of_Content"][
+                        "Time_Period_Information"
+                    ]["Single_Date/Time"]["Calendar_Date"]
+                )
+            except KeyError:
+                res = maybe_extract_id_and_date(cog_href)
+                if res is not None:
+                    resource_desc, dt = res
+                else:
+                    raise Exception(
+                        f"Failed to extract item resource_desc and dt: {cog_href}"
+                    )
+        else:
             first_xpath = "gmd:fileIdentifier/gco:CharacterString"
 
             second_xpath = "idinfo/citation/citeinfo/title"
@@ -171,28 +189,6 @@ def create_item(
                         raise Exception(
                             f"Failed to extract item resource_desc and dt: {cog_href}"
                         )
-
-        elif year < "2020":
-            fgdc_metadata_text = read_text(fgdc_metadata_href)
-            fgdc = parse_fgdc_metadata(fgdc_metadata_text)
-            try:
-                resource_desc = fgdc["Distribution_Information"]["Resource_Description"]
-                dt = str_to_datetime(
-                    fgdc["Identification_Information"]["Time_Period_of_Content"][
-                        "Time_Period_Information"
-                    ]["Single_Date/Time"]["Calendar_Date"]
-                )
-            except KeyError:
-                res = maybe_extract_id_and_date(cog_href)
-                if res is not None:
-                    resource_desc, dt = res
-                else:
-                    raise Exception(
-                        f"Failed to extract item resource_desc and dt: {cog_href}"
-                    )
-        else:
-            raise Exception(f"Metadata for year {year} is not supported.")
-
     else:
         res = maybe_extract_id_and_date(cog_href)
         if res is not None:

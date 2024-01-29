@@ -28,7 +28,7 @@ documentation = "https://stactools-naip.readthedocs.io/en/latest/"
 
 [project.optional-dependencies]
 dev = [
-    "black~=23.3",
+    "black>=23.3,<25.0",
     "codespell~=2.2",
     "coverage~=7.4.0",
     "pre-commit~=3.3",

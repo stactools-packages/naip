@@ -224,7 +224,11 @@ def create_item(
     projection.shape = image_shape
     projection.bbox = original_bbox
     projection.transform = transform
-    projection.centroid = {"lat": round(centroid.y, 5), "lon": round(centroid.x, 5)}
+    # Avoid shipping numpy floats
+    projection.centroid = {
+        "lat": round(centroid.y, 5).item(),
+        "lon": round(centroid.x, 5).item(),
+    }
 
     # Grid Extension
     grid = GridExtension.ext(item, add_if_missing=True)

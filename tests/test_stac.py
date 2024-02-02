@@ -155,3 +155,6 @@ class StacTest(unittest.TestCase):
         self.assertEqual(item.id, "ca_m_4112001_sw_10_060_20220716")
         schemas = item.validate()
         self.assertTrue(schemas)
+
+        assert type(item.properties["proj:centroid"]["lat"]) == float
+        assert type(item.properties["proj:centroid"]["lon"]) == float
